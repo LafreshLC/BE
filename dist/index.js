@@ -9,5 +9,5 @@ require("./db");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 9090;
 app.listen(PORT, () => {
-    console.log("Port is listening on port " + PORT);
+    console.log("Port is listening on port" + PORT);
 });
