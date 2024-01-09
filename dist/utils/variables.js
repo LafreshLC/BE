@@ -1,5 +1,2 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.MONGO_URI = void 0;
 const { env } = process;
-exports.MONGO_URI = env.MONGO_URI;
+export const { MONGO_URI, MAILTRAP_USER, MAILTRAP_PASS, VERIFICATION_EMAIL, PASSWORD_RESET_LINK, SIGN_IN_URL, JWT_SECRET, CLOUD_NAME, CLOUD_KEY, CLOUD_SECRET, } = env;
