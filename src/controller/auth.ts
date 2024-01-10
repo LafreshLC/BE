@@ -33,7 +33,7 @@ export const generateForgetPasswordLink: RequestHandler = async(req, res)=>{
   //  generate the link if the email exist 
   await passwordResetToken.findOneAndDelete({
     owner: user._id,
-  })
+  });
 
 const token = crypto.randomBytes(36).toString('hex')
 
@@ -47,21 +47,25 @@ const token = crypto.randomBytes(36).toString('hex')
   sendForgetPasswordLink({ email:user.email, link:resetLink });
 
   res.json({ message: "Check your registered mail" });
-    }
+  }
 
-    export const isValidPasswordResetToken: RequestHandler = async(req, res)=>{
-        const { token, userId } = req.body;
-    
-       const resetToken = await passwordResetToken.findOne({owner: userId})
-       if(!resetToken) return res.status(403).json({error: "Unauthorized acccess, invalid token"});
-    
-       const matched = await resetToken.compareToken(token)
-       if(!matched) return res.status(403).json({error: "Unauthorized acccess, invalid token"});
-      
-       res.json({ message: "your token is valid."})
+  export const isValidPasswordResetToken: RequestHandler = async(req, res)=>{
+    const { token, userId } = req.body;
+
+   const resetToken = await passwordResetToken.findOne({owner: userId})
+   if(!resetToken) return res.status(403).json({error: "Unauthorized acccess, invalid token"});
+
+   const matched = await resetToken.compareToken(token)
+   if(!matched) return res.status(403).json({error: "Unauthorized acccess, invalid token"});
+  
+   res.json({ message: "your token is valid."})
 }
 
-export const updatePassword: RequestHandler = async(req, res)=>{
+  export const grantValid: RequestHandler = async(req, res)=>{
+      res.json({valid: true});
+   }
+
+   export const updatePassword: RequestHandler = async(req, res)=>{
     const {password, userId} = req.body
     const user = await User.findById(userId)
     if(!user) return res.status(403).json({error: "Unathorized access!"}) 
@@ -102,7 +106,29 @@ export const updatePassword: RequestHandler = async(req, res)=>{
         name: user.name,
         email: user.email,
         address: user.address,
+        role: user.role,
       },
       token,
     });
   };
+
+  export const sendProfile: RequestHandler = (req, res) =>{
+    res.json({profile: req.user});
+  }
+
+  
+export const logout: RequestHandler =async (req, res) =>{
+  // logout and logout from all 
+
+  const token = req.token
+  const user = await User.findById(req.user.id);
+  if(!user) throw new Error("something went wrong, user not found!");
+
+  // logout from all 
+   user.tokens = user.tokens.filter((t) => t !== token)
+
+  await user.save()
+  res.json({success: true});
+
+}
+  
