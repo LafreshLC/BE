@@ -1,4 +1,7 @@
-export const generateTemplate = (options) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateTemplate = void 0;
+const generateTemplate = (options) => {
     const { title, message, link, logo, banner, btnTitle } = options;
     return `
         <!DOCTYPE html>
@@ -1046,3 +1049,4 @@ export const generateTemplate = (options) => {
       
         `;
 };
+exports.generateTemplate = generateTemplate;
