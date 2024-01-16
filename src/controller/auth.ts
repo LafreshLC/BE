@@ -1,4 +1,4 @@
-import { CreateUser, verifyEmailRequest } from "#/@types/user";
+import { CreateUser } from "#/@types/user";
 import { RequestHandler } from "express";
 import User from '#/models/user';
 import passwordResetToken from "#/models/passwordResetToken";
