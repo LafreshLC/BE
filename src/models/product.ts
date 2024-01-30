@@ -4,17 +4,16 @@ export interface ProductDocument {
   _id: ObjectId;
   name: string;
   category: ObjectId;
+  price: Number;
   variant: string[]; // Corrected typo from "varient" to "variant"
-  available: boolean;
   image: {
     url: string;
-    publicId: string;
   };
+  description: string
 }
 
 const ImageSchema = new Schema({
   url: String,
-  publicId: String,
 });
 
 const VariantSchema = new Schema({
@@ -33,12 +32,19 @@ const productSchema = new Schema<ProductDocument>({
     required: true,
     ref: 'Category',
   },
-  variant: [VariantSchema], // Corrected typo from "varient" to "variant"
-  available: {
-    type: Boolean,
-    default: true,
+  price:{
+    type: Number,
+    required: true
   },
+  variant: [VariantSchema], // Corrected typo from "varient" to "variant"
+  
   image: ImageSchema, // Using the ImageSchema for better definition
-}, { timestamps: true });
+
+  description:{
+    type: String,
+    required: true,
+  }
+}, 
+{ timestamps: true });
 
 export default model("Product", productSchema) as Model<ProductDocument>;

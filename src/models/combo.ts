@@ -8,7 +8,6 @@ export interface ComboDocument {
     description: String;
     image: {
         url: string;
-        publicId: string;
       };
     }
 
@@ -32,7 +31,6 @@ const comboSchema = new Schema<ComboDocument>({
     image: {
         type: Object,
         url: String,
-        publicId: String
     }
 }, {timestamps: true});
 
