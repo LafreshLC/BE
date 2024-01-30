@@ -18,17 +18,20 @@ export const update: RequestHandler = async(req, res) =>{
 }
  
 export const removeCategory: RequestHandler = async(req, res) =>{
-    const {catId, all} = req.query;
+    const {catId} = req.query;
     if(!isValidObjectId(catId)) return res.status(422).json({error: "Invalid category id!"})
-    if(all === 'yes'){
+    
         const category = await Category.findOneAndDelete({
             _id: catId
-        })
+        });
+        
         if(!category) return res.status(404).json({error: "Category not found!"})
-    }
+    
     res.json({success: true});
 }
 
 export const allCategory: RequestHandler = async(req, res) =>{
-    
+   const category = await Category.find();
+   if(!category) return res.status(404).json({error: "No data found!"});
+   res.status(200).json({category}); 
 }

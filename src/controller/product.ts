@@ -25,10 +25,16 @@ export const updateProduct: RequestHandler = async(req, res)=>{
     res.status(200).json({ product });
 }
 
+export const allProduct: RequestHandler = async(req, res)=>{
+    const product = await Product.find();
+    if(!product) return res.status(404).json({error: 'No product found!'});
+    res.status(200).json({product})  
+}
+
 export const removeProduct: RequestHandler = async(req, res)=>{
     const {productId} = req.query;
     if(!isValidObjectId(productId)) return res.status(422).json({error: "Invalid product id!"});
     const product = await Product.findOneAndDelete({_id: productId});
-    if(!product) return res.status(404).json({error: 'Product not found!'});
+    if(!product) return res.status(404).json({error: 'Product not found!'});  
     res.status(200).json({success: true});
 }

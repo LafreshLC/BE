@@ -18,7 +18,7 @@ app.use(express.static('src/public'));
 app.use("/auth", authRouter);
 app.use("/category", categoryRouter);
 app.use('/product', productRouter);
-app.use('/combo', comboRouter);
+app.use('/combo', comboRouter); 
 
 const PORT = process.env.PORT || 9090;
 
