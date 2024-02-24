@@ -8,7 +8,7 @@ export interface UserDocument {
     email: string;
     password:string;
     address:string;
-    tokens: string[];
+    token: string;
     role: string[]
 }
 
@@ -39,7 +39,10 @@ const userSchema = new Schema<UserDocument, {}, Methods>({
         type: [String],
         default: ["user"],
     },
-    tokens: [String]
+    token: {
+        type: String,
+        expires: '1d',
+    }
 },{timestamps: true});
 
 userSchema.pre('save', async function(next){

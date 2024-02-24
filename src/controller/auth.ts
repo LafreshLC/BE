@@ -96,15 +96,15 @@ const token = crypto.randomBytes(36).toString('hex')
   
     // generate the token for later use.
     const token = jwt.sign({ userId: user._id }, JWT_SECRET);
-    user.tokens.push(token);
+    user.token = token;
   
-    await user.save();
+    await user.save(); 
   
     res.json({
       profile: {
         id: user._id,
         name: user.name,
-        email: user.email,
+        email: user.email, 
         address: user.address,
         role: user.role,
       },
@@ -125,7 +125,7 @@ export const logout: RequestHandler =async (req, res) =>{
   if(!user) throw new Error("something went wrong, user not found!");
 
   // logout from all 
-   user.tokens = user.tokens.filter((t) => t !== token)
+   user.token = user.token.filter((t) => t !== token)
 
   await user.save()
   res.json({success: true});

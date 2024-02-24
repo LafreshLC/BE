@@ -4,16 +4,54 @@ import { isValidObjectId } from "mongoose";
 
 
 export const addProduct: RequestHandler = async(req, res)=>{
-    const {name, category, variant, available, image} = req.body;
+    const {name, category, variant, available, description, price, image} = req.body;
     const product = new Product({
         name, 
         category,
         variant,
         available,
+        description,
+        price,
         image
     });
     await product.save()
-    res.status(201).json({ product });
+    const [result] = await Product.aggregate([
+        {
+            $match: {
+                _id: product._id,
+            },
+        },
+        {
+            $lookup: {
+                from: 'categories', // Assuming your Category collection is named 'categories'
+                localField: 'category',
+                foreignField: '_id',
+                as: 'categoryDetails',
+            },
+        },
+        {
+            $unwind: '$categoryDetails',
+        },
+        {
+            $replaceRoot: {
+                newRoot: {
+                    _id: '$categoryDetails._id',
+                    product: {
+                        _id: product._id,
+                        name,
+                        variant,
+                        available,
+                        price,
+                        description,
+                        image,
+                        category: '$categoryDetails.name',
+                    },
+                },
+            },
+        },
+    ]);
+
+    res.status(201).json({ product: result.product }); 
 }
 
 export const updateProduct: RequestHandler = async(req, res)=>{
