@@ -9,8 +9,11 @@ import orderRouter from './routers/order';
 
 const app = express();
 
-// Use the cors middleware
-app.use(cors());
+// Use the cors middleware with options to allow requests from your local origin
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: false
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
