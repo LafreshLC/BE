@@ -5,16 +5,14 @@ export interface ProductDocument {
   name: string;
   category: ObjectId;
   price: Number;
-  image: {
-    url: string;
-  };
+  image: string;
   description: string;
   status: "available" | "unavailable";
 }
 
-const ImageSchema = new Schema({
-  url: String,
-});
+// const ImageSchema = new Schema({
+//   url: String,
+// });
 
 const productSchema = new Schema<ProductDocument>({
   name: {
@@ -30,8 +28,11 @@ const productSchema = new Schema<ProductDocument>({
     type: Number,
     required: true
   },  
-  image: ImageSchema, // Using the ImageSchema for better definition
-
+  image: {
+    type: String,
+    required: true
+  }
+,
   description:{
     type: String,
     required: true,
