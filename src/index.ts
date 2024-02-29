@@ -11,7 +11,7 @@ const app = express();
 
 // Use the cors middleware with options to allow requests from your local origin
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://lafreshfe.vercel.app/',
   credentials: false
 }));
 
@@ -22,7 +22,7 @@ app.use("/auth", authRouter);
 app.use("/category", categoryRouter);
 app.use('/product', productRouter); 
 app.use('/order', orderRouter);
-
+  
 const PORT = process.env.PORT || 9090;
 
 app.listen(PORT, () => {
