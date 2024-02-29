@@ -4,12 +4,10 @@ import { isValidObjectId } from "mongoose";
 
 
 export const addProduct: RequestHandler = async(req, res)=>{
-    const {name, category, variant, available, description, price, image} = req.body;
+    const {name, category, description, price, image} = req.body;
     const product = new Product({
         name, 
         category,
-        variant,
-        available,
         description,
         price,
         image
@@ -39,8 +37,6 @@ export const addProduct: RequestHandler = async(req, res)=>{
                     product: {
                         _id: product._id,
                         name,
-                        variant,
-                        available,
                         price,
                         description,
                         image,
@@ -55,9 +51,9 @@ export const addProduct: RequestHandler = async(req, res)=>{
 }
 
 export const updateProduct: RequestHandler = async(req, res)=>{
-    const {id, name, category, variant, available, image} = req.body;
+    const {id, name, category, description, image} = req.body;
     if(!isValidObjectId(id)) return res.status(422).json({error: "Invalid product id!"});
-    const product = await Product.findOneAndUpdate({_id: id}, {name, category, variant, available})
+    const product = await Product.findOneAndUpdate({_id: id}, {name, category, description,image})
     if(!product) return res.status(404).json({error: "Product not found!"});
     await product.save();
     res.status(200).json({ product });

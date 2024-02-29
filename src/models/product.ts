@@ -5,21 +5,15 @@ export interface ProductDocument {
   name: string;
   category: ObjectId;
   price: Number;
-  variant: string[]; // Corrected typo from "varient" to "variant"
   image: {
     url: string;
   };
-  description: string
+  description: string;
+  status: "available" | "unavailable";
 }
 
 const ImageSchema = new Schema({
   url: String,
-});
-
-const VariantSchema = new Schema({
-  name: String,
-  price: Number,
-  availability: { type: Boolean, default: true },
 });
 
 const productSchema = new Schema<ProductDocument>({
@@ -35,14 +29,16 @@ const productSchema = new Schema<ProductDocument>({
   price:{
     type: Number,
     required: true
-  },
-  variant: [VariantSchema], // Corrected typo from "varient" to "variant"
-  
+  },  
   image: ImageSchema, // Using the ImageSchema for better definition
 
   description:{
     type: String,
     required: true,
+  },
+  status:{
+    type: String,
+    default: "available"
   }
 }, 
 { timestamps: true });

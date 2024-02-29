@@ -25,7 +25,7 @@ export const mustAuth: RequestHandler = async(req, res, next)=>{
     if(!token) return res.status(403).json({error: "Unauthorized request"});
     const payload = verify(token, JWT_SECRET) as JwtPayload;
     const id = payload.userId;
-    const user = await User.findOne({_id: id, tokens: token});
+    const user = await User.findOne({_id: id, token: token});
     if(!user) return res.status(403).json({error: "Unauthoried request! "});
      
     req.user = {

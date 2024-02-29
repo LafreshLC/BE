@@ -117,18 +117,33 @@ const token = crypto.randomBytes(36).toString('hex')
   }
 
   
-export const logout: RequestHandler =async (req, res) =>{
-  // logout and logout from all 
+// export const logout: RequestHandler =async (req, res) =>{
+//   // logout and logout from all 
 
-  const token = req.token
+//   const token = req.token
+//   const user = await User.findById(req.user.id);
+//   if(!user) throw new Error("something went wrong, user not found!");
+
+//   // logout from all 
+//    user.token = user.token.filter((t) => t !== token)
+
+//   await user.save()
+//   res.json({success: true});
+
+// }
+
+export const logout: RequestHandler = async (req, res) => {
+  // logout and remove the entire token field
+
   const user = await User.findById(req.user.id);
-  if(!user) throw new Error("something went wrong, user not found!");
 
-  // logout from all 
-   user.token = user.token.filter((t) => t !== token)
+  if (!user) throw new Error("Something went wrong, user not found!");
 
-  await user.save()
-  res.json({success: true});
+  // remove the entire token field
+  user.token = '';
 
-}
+  await user.save();
+  res.json({ success: true });
+};
+
   
