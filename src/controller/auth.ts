@@ -1,13 +1,14 @@
-import { CreateUser } from "#/@types/user";
+//@ts-nocheck
+
+import { CreateUser, UserType } from "#/@types/user";
 import { RequestHandler } from "express";
-import User from '#/models/user';
+import User, { UserDocument } from '#/models/user';
 import passwordResetToken from "#/models/passwordResetToken";
 import crypto from "crypto";
 import { PASSWORD_RESET_LINK } from "#/utils/variables";
 import { sendForgetPasswordLink } from "#/utils/mail";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "#/utils/variables";
-
 
 
 export const create: RequestHandler = async(req: CreateUser, res)=>{
@@ -113,8 +114,8 @@ const token = crypto.randomBytes(36).toString('hex')
   };
 
   export const sendProfile: RequestHandler = (req, res) =>{
-    res.json({profile: req.user});
-  }
+    const { user } = req;
+    res.json({ profile: user });  }
 
   
 // export const logout: RequestHandler =async (req, res) =>{

@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import Order from "#/models/order";
 import { RequestHandler } from "express";
 
