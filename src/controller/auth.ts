@@ -1,4 +1,3 @@
-//@ts-nocheck
 
 import { CreateUser, UserType } from "#/@types/user";
 import { RequestHandler } from "express";

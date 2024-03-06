@@ -6,7 +6,7 @@ export interface OrderDocument{
     products: [{productId: ObjectId, quantity: number}];
     address: String;
     totalPrice: number;
-    mobile: number;
+    mobile: string;
     status: "pending" | "processing" | "confirmed"
 }
 
@@ -33,7 +33,7 @@ const orderSchema = new Schema<OrderDocument>({
         required: true
     },
     mobile:{
-        type: Number,
+        type: String,
         required: true 
     },
     status:{

@@ -62,42 +62,48 @@ export const updateProduct: RequestHandler = async(req, res)=>{
 export const allProduct: RequestHandler = async (req, res) => {
     const products = await Product.find();
     if (!products || products.length === 0) {
-      return res.status(404).json({ error: 'No products found!' });
+        return res.status(404).json({ error: 'No products found!' });
     }
-  
+
     const result = await Product.aggregate([
-      {
-        $match: {
-          _id: { $in: products.map((p) => p._id) },
-        },
-      },
-      {
-        $lookup: {
-          from: 'categories',
-          localField: 'category',
-          foreignField: '_id',
-          as: 'categoryDetails',
-        },
-      },
-      { $unwind: '$categoryDetails' },
-      {
-        $replaceRoot: {
-          newRoot: {
-            _id: '$categoryDetails._id',
-            product: {
-              _id: '$_id',
-              name: '$name',
-              description: '$description',
-              image: '$image',
-              category: '$categoryDetails.name', 
+        {
+            $match: {
+                _id: { $in: products.map((p) => p._id) },
             },
-          },
         },
-      },
+        {
+            $lookup: {
+                from: 'categories',
+                localField: 'category',
+                foreignField: '_id',
+                as: 'categoryDetails',
+            },
+        },
+        { $unwind: '$categoryDetails' },
+        {
+            $replaceRoot: {
+                newRoot: {
+                    _id: '$_id',
+                    name: '$name',
+                    description: '$description',
+                    category: '$categoryDetails.name',
+                },
+            },
+        },
     ]);
-  
-    res.status(200).json({ products: result });
-  };
+
+    const structuredResponse = {
+        products: result.map((product) => ({
+            _id: product._id,
+            name: product.name,
+            description: product.description,
+            category: product.category,
+        })),
+    };
+
+    res.status(200).json(structuredResponse);
+};
+
   
 
 export const removeProduct: RequestHandler = async(req, res)=>{
