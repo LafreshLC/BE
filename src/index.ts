@@ -12,7 +12,7 @@ const app = express();
 // Use the cors middleware with options to allow requests from your local origin
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://lafreshfe.vercel.app/","*"],
+    origin: "*",
     credentials: false,
   })
 );

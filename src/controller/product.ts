@@ -87,6 +87,8 @@ export const allProduct: RequestHandler = async (req, res) => {
                     name: '$name',
                     description: '$description',
                     category: '$categoryDetails.name',
+                    price: '$price',
+                    image: '$image',
                 },
             },
         },
@@ -94,10 +96,11 @@ export const allProduct: RequestHandler = async (req, res) => {
 
     const structuredResponse = {
         products: result.map((product) => ({
-            _id: product._id,
+            id: product._id,
             name: product.name,
             description: product.description,
             category: product.category,
+            price: product.price,
             image: product.image,
         })),
     };
