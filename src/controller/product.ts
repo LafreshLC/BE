@@ -98,12 +98,12 @@ export const allProduct: RequestHandler = async (req, res) => {
             name: product.name,
             description: product.description,
             category: product.category,
+            image: product.image,
         })),
     };
 
     res.status(200).json(structuredResponse);
 };
-
   
 
 export const removeProduct: RequestHandler = async(req, res)=>{
