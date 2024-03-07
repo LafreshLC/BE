@@ -11,7 +11,7 @@ router.post('/forget-password', generateForgetPasswordLink);
 router.post('/verify-pass-reset-token', validate(TokenAndIDValidation), isValidPasswordResetToken, grantValid);
 router.post('/update-password', validate(UpdatePasswordSchema), isValidPasswordResetToken, updatePassword);
 router.post('/sign-in', validate(SignInValidationSchema), signIn); 
-router.get('/is-auth', mustAuth, sendProfile)  
+router.get('/:userId', mustAuth, sendProfile)  
 router.post('/log-out', mustAuth, logout)
 router.patch('/:userId', mustAuth, updateProfile);  
 

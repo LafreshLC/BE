@@ -116,13 +116,16 @@ const token = crypto.randomBytes(36).toString('hex')
     const {userId} = req.params;
     const {address, phone} = req.body;
     const user = await User.findByIdAndUpdate(userId, {address, phone});
-    if(!user) return res.status(400).json({message: "Someting went wrong!"});
+    if(!user) return res.status(400).json({message: "Something went wrong!"});
     res.json({user: {address, phone}});
   } 
 
-  export const sendProfile: RequestHandler = (req, res) =>{
-    const { user } = req.body;
-    res.json({ profile: user });  } 
+  export const sendProfile: RequestHandler = async (req, res) =>{
+    const {userId} = req.params;
+    const user = await User.findById(userId).select("-password");
+    if(!user) return res.status(400).json({message: "Something went wrong!"});
+    res.json({ profile: user });  
+  } 
 
 
 export const logout: RequestHandler = async (req, res) => {
@@ -133,7 +136,7 @@ export const logout: RequestHandler = async (req, res) => {
   if (!user) throw new Error("Something went wrong, user not found!");
 
   // remove the entire token field
-  user.token = '';
+  user.token = ''; 
 
   await user.save();
   res.json({ success: true });
