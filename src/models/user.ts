@@ -8,8 +8,9 @@ export interface UserDocument {
     email: string;
     password:string;
     address:string;
+    phone:string;
     token: string;
-    role: string[]
+    role: "admin" | "user";
 }
 
 interface Methods {
@@ -35,18 +36,21 @@ const userSchema = new Schema<UserDocument, {}, Methods>({
     address:{
         type: String,
     },
+    phone:{
+        type: String,
+    },
     role:{
-        type: [String],
-        default: ["user"],
+        type: String,
+        default: "user",
     },
     token: {
         type: String,
-    }
+    } 
 },{timestamps: true});
 
 userSchema.pre('save', async function(next){
     // hash the token
-    if(this.isModified("password")){
+    if(this.isModified("password")){ 
         this.password = await hash(this.password, 10);
     }
     next();

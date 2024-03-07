@@ -112,30 +112,23 @@ const token = crypto.randomBytes(36).toString('hex')
     });
   };
 
+  export const updateProfile: RequestHandler = async (req, res)=>{
+    const {userId} = req.params;
+    const {address, phone} = req.body;
+    const user = await User.findByIdAndUpdate(userId, {address, phone});
+    if(!user) return res.status(400).json({message: "Someting went wrong!"});
+    res.json({user: {address, phone}});
+  } 
+
   export const sendProfile: RequestHandler = (req, res) =>{
-    const { user } = req;
-    res.json({ profile: user });  }
+    const { user } = req.body;
+    res.json({ profile: user });  } 
 
-  
-// export const logout: RequestHandler =async (req, res) =>{
-//   // logout and logout from all 
-
-//   const token = req.token
-//   const user = await User.findById(req.user.id);
-//   if(!user) throw new Error("something went wrong, user not found!");
-
-//   // logout from all 
-//    user.token = user.token.filter((t) => t !== token)
-
-//   await user.save()
-//   res.json({success: true});
-
-// }
 
 export const logout: RequestHandler = async (req, res) => {
   // logout and remove the entire token field
-
-  const user = await User.findById(req.user.id);
+  const userId = req.user.id
+  const user = await User.findById(userId);
 
   if (!user) throw new Error("Something went wrong, user not found!");
 
