@@ -106,6 +106,7 @@ export const allProduct: RequestHandler = async (req, res) => {
           category: "$categoryDetails.name",
           price: "$price",
           image: "$image",
+          status: "$status",
         },
       },
     },
