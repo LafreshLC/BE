@@ -50,12 +50,12 @@ export const addProduct: RequestHandler = async (req, res) => {
 };
 
 export const updateProduct: RequestHandler = async (req, res) => {
-  const { id, name, category, description, image } = req.body;
+  const { id, name, category, description, image, status } = req.body;
   if (!isValidObjectId(id))
     return res.status(422).json({ error: "Invalid product id!" });
   const product = await Product.findOneAndUpdate(
     { _id: id },
-    { name, category, description, image }
+    { name, category, description, image, status }
   );
   if (!product) return res.status(404).json({ error: "Product not found!" });
   await product.save();
@@ -120,6 +120,7 @@ export const allProduct: RequestHandler = async (req, res) => {
       category: product.category,
       price: product.price,
       image: product.image,
+      status: product.status,
     })),
   };
 
