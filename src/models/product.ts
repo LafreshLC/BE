@@ -21,7 +21,6 @@ const productSchema = new Schema<ProductDocument>({
   },
   category: {
     type: Schema.Types.ObjectId,
-    required: true,
     ref: 'Category',
   },
   price:{
@@ -30,12 +29,10 @@ const productSchema = new Schema<ProductDocument>({
   },  
   image: {
     type: String,
-    required: true
   }
 ,
   description:{
     type: String,
-    required: true,
   },
   status:{
     type: String,

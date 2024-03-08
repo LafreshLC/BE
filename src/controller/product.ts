@@ -51,9 +51,10 @@ export const addProduct: RequestHandler = async(req, res)=>{
 }
 
 export const updateProduct: RequestHandler = async(req, res)=>{
-    const {id, name, category, description, image} = req.body;
-    if(!isValidObjectId(id)) return res.status(422).json({error: "Invalid product id!"});
-    const product = await Product.findOneAndUpdate({_id: id}, {name, category, description,image})
+    const {productId} = req.params;
+    const { name, category, description, image} = req.body;
+    if(!isValidObjectId(productId)) return res.status(422).json({error: "Invalid product id!"});
+    const product = await Product.findOneAndUpdate({_id: productId}, {name, category, description, image})
     if(!product) return res.status(404).json({error: "Product not found!"});
     await product.save();
     res.status(200).json({ product });

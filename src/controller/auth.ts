@@ -130,8 +130,7 @@ const token = crypto.randomBytes(36).toString('hex')
 
 export const logout: RequestHandler = async (req, res) => {
   // logout and remove the entire token field
-  const userId = req.user.id
-  const user = await User.findById(userId);
+  const user = await User.findById(req.user.id);
 
   if (!user) throw new Error("Something went wrong, user not found!");
 
