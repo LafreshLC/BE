@@ -49,7 +49,6 @@ export const addProduct: RequestHandler = async (req, res) => {
   res.status(201).json({ product: result.product });
 };
 
-
 export const updateProduct: RequestHandler = async(req, res)=>{
     const {productId} = req.params;
     const { name, category, description, image} = req.body;
@@ -126,9 +125,7 @@ export const allProduct: RequestHandler = async (req, res) => {
 };
 
 export const removeProduct: RequestHandler = async (req, res) => {
-  const { productId } = req.query;
-  if (!isValidObjectId(productId))
-    return res.status(422).json({ error: "Invalid product id!" });
+  const { productId } = req.params
   const product = await Product.findOneAndDelete({ _id: productId });
   if (!product) return res.status(404).json({ error: "Product not found!" });
   res.status(200).json({ success: true });
