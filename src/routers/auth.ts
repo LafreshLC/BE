@@ -13,7 +13,7 @@ router.post('/update-password', validate(UpdatePasswordSchema), isValidPasswordR
 router.post('/sign-in', validate(SignInValidationSchema), signIn); 
 router.get('/:userId', mustAuth, sendProfile)  
 router.post('/log-out', mustAuth, logout)
-router.patch('/:userId', mustAuth, updateProfile);  
+router.patch('/:userId', mustAuth, updateProfile); 
 
 
 

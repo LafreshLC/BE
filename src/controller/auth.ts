@@ -118,7 +118,7 @@ const token = crypto.randomBytes(36).toString('hex')
     const user = await User.findByIdAndUpdate(userId, {address, phone});
     if(!user) return res.status(400).json({message: "Something went wrong!"});
     res.json({user: {address, phone}});
-  } 
+  }
 
   export const sendProfile: RequestHandler = async (req, res) =>{
     const {userId} = req.params;
