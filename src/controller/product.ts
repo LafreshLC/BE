@@ -49,8 +49,6 @@ export const addProduct: RequestHandler = async (req, res) => {
   res.status(201).json({ product: result.product });
 };
 
-    res.status(201).json({ product: result.product }); 
-}
 
 export const updateProduct: RequestHandler = async(req, res)=>{
     const {productId} = req.params;
