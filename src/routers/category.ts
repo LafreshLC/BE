@@ -4,8 +4,8 @@ import { Router } from "express";
 const router = Router();
 
 router.post('/create', create)
-router.post('/update', update)
+router.patch('/:catId', update)
 router.get('/all-category', allCategory)
-router.delete('/delete', removeCategory)
+router.delete('/:catId', removeCategory) 
 
 export default router
