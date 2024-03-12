@@ -1,13 +1,18 @@
+// @ts-nocheck
 import Router from 'express';
 
 const router = Router();
+const https = require('https')
 
-router.get('/payment', function(req, res){
+router.post('/payment', function(req, res){
+  const { email, amount } = req.body;
     // const https = require('https')
 
 const params = JSON.stringify({
-  "email": req.query.email,
-  "amount": req.query.amount,
+  // "email": req.query.email,
+  // "amount": req.query.amount,
+  // "amount": 10000,
+  email, amount
 })
 
 const options = {
@@ -16,7 +21,7 @@ const options = {
   path: '/transaction/initialize',
   method: 'POST',
   headers: {
-    Authorization: 'Bearer sk_test_0b52e05b3771dd48a0e452dd1517a31dce229299',
+    Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
     'Content-Type': 'application/json'
   }
 }
