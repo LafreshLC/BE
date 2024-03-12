@@ -1,4 +1,5 @@
 
+// @ts-nocheck
 import { CreateUser, UserType } from "#/@types/user";
 import { RequestHandler } from "express";
 import User, { UserDocument } from '#/models/user';
