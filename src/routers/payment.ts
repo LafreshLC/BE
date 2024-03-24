@@ -75,6 +75,8 @@ router.get("/verify", function (req, res) {
     .on("error", (error) => {
       console.error(error);
     });
+    reqPaystack.end();
+
 });
 
 export default router;
