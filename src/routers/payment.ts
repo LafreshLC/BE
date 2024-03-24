@@ -52,7 +52,7 @@ router.get("/verify", function (req, res) {
   const options = {
     hostname: "api.paystack.co",
     port: 443,
-    path: `/transaction/verify/:${reference}`,
+    path: `/transaction/verify/${reference}`,
     method: "GET",
     headers: {
       Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
