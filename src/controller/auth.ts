@@ -14,7 +14,7 @@ import { JWT_SECRET } from "#/utils/variables";
 export const create: RequestHandler = async(req: CreateUser, res)=>{
    
     const {email, password, name} = req.body;
-    
+     
     const oldUser = await User.findOne({email})
     
     if(oldUser) return res.status(403).json({error: "Email already exist!"})
@@ -27,14 +27,14 @@ export const create: RequestHandler = async(req: CreateUser, res)=>{
 export const generateForgetPasswordLink: RequestHandler = async(req, res)=>{
    
     const { email } = req.body;
-
+    
    const user = await User.findOne({email})
    if(!user) return res.status(404).json({error: "Account not found!"})
 
   //  generate the link if the email exist 
   await passwordResetToken.findOneAndDelete({
     owner: user._id,
-  });
+  }); 
 
 const token = crypto.randomBytes(36).toString('hex')
 

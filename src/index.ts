@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("src/public"));
 app.use("/auth", authRouter);
 app.use("/category", categoryRouter);
-app.use("/product", productRouter);
+app.use("/product", productRouter); 
 app.use("/order", orderRouter);
 app.use("/payment", paymentRouter )
 
