@@ -12,7 +12,6 @@ router.post("/payment", function (req, res) {
     amount,
     callback_url: "https://lafreshfe.vercel.app/verify",
     // callback_url: "http://localhost:5173/verify",
-
   });
 
   const options = {
@@ -43,7 +42,7 @@ router.post("/payment", function (req, res) {
       console.error(error);
     });
 
-  reqPaystack.write(params);    
+  reqPaystack.write(params);
   reqPaystack.end();
 });
 
@@ -54,21 +53,22 @@ router.get("/verify", function (req, res) {
     hostname: "api.paystack.co",
     port: 443,
     path: `/transaction/verify/:${reference}`,
-    method: "GET", 
+    method: "GET",
     headers: {
       Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
     },
-  };    
+  };
 
-  https
-    .request(options, (res) => {   
+  const reqPaystack = https
+    .request(options, (respaystack) => {
       let data = "";
 
-      res.on("data", (chunk) => {
+      respaystack.on("data", (chunk) => {
         data += chunk;
       });
 
-      res.on("end", () => {
+      respaystack.on("end", () => {
+        res.send(data);
         console.log(JSON.parse(data));
       });
     })
