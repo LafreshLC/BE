@@ -69,7 +69,7 @@ router.get("/verify", function (req, res) {
 
       respaystack.on("end", () => {
         const responseData = JSON.parse(data);
-        console.log(responseData); // Log the response for debugging purposes
+        // console.log(responseData); // Log the response for debugging purposes
 
         // Check if payment was successful
         if (
@@ -77,29 +77,22 @@ router.get("/verify", function (req, res) {
           responseData.data.status === "success"
         ) {
           // Payment was successful, extract relevant information
-          const {
-            amount,
-            email,
-            transactionId,
-            name,
-            referenceId,
-            status,
-            currency,
-          } = responseData.data;
-          
+          const { amount, customer, id, name, reference, status, currency } =
+            responseData.data;
+
           const paymentData = {
-            referenceId,
-            email,
+            referenceId: reference,
+            email: customer.email,
             amount,
             status,
             currency,
             name,
-            transactionId,
+            transactionId: id,
           };
           console.log(paymentData);
         }
         res.send(data);
-        console.log(JSON.parse(data));
+        // console.log(JSON.parse(data));
       });
     })
     .on("error", (error) => {
