@@ -79,13 +79,13 @@ router.get("/verify", function (req, res) {
           // Payment was successful, extract relevant information
           const { amount, email, transactionId, name, referenceId, status, currency } = responseData.data;
           const paymentData = {
-            referenceId = responseData.data.reference,
-            email = responseData.data.customer.email,
-            amount = responseData.data.amount,
-            status = responseData.data.status,
-            currency = responseData.data.currency,
-            name = responseData.data.customer.first_name,
-            transactionId = responseData.data.id
+            referenceId,
+            email,
+            amount,
+            status,
+            currency,
+            name,
+            transactionId
           }
           console.log(paymentData);
         }
