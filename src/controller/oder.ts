@@ -28,3 +28,8 @@ export const confirmedOrders: RequestHandler = async(req, res) =>{
     const orders = await Order.find({status: 'confirmed'});
     res.json({orders});
 }
+
+export const allOders: RequestHandler = async(req, res) => {
+    const totalOrders = await Order.countDocuments();
+    res.json({totalOrders});
+}

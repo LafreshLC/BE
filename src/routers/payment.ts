@@ -6,11 +6,11 @@ const https = require('https')
 
 router.post('/payment', function(req, res){
   const { email, amount } = req.body;
-    // const https = require('https')
+    // const https = require('https') 
 
 const params = JSON.stringify({
   // "email": req.query.email,
-  // "amount": req.query.amount,
+  // "amount": req.query.amount, 
   // "amount": 10000,
   email, amount
 })

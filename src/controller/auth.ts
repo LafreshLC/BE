@@ -21,8 +21,8 @@ export const create: RequestHandler = async(req: CreateUser, res)=>{
     
     const user = await User.create({name, email, password}); 
     res.status(201).json({user: {id: user._id, name, email} });
-
-}
+ 
+} 
 
 export const generateForgetPasswordLink: RequestHandler = async(req, res)=>{
    
