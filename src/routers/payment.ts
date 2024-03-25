@@ -1,17 +1,18 @@
 // @ts-nocheck
+import Order from "#/models/order";
+import Shipping from "#/models/shipping";
 import Router, { response } from "express";
 
 const router = Router();
 const https = require("https");
 
-router.post("/payment", function (req, res) {
+router.post("/payment", function async(req, res) {
   const { email, amount } = req.body;
 
   const params = JSON.stringify({
     email,
     amount,
-    callback_url: "https://lafreshfe.vercel.app/verify",
-    // callback_url: "http://localhost:5173/verify",
+    callback_url: "https://lafreshfe.vercel.app/",
   });
 
   const options = {
@@ -46,7 +47,7 @@ router.post("/payment", function (req, res) {
   reqPaystack.end();
 });
 
-router.get("/verify", function (req, res) {
+router.get("/verify", async function (req, res) { // Corrected function async syntax
   const reference = req.query.reference;
   console.log(reference);
   const options = {
@@ -60,16 +61,16 @@ router.get("/verify", function (req, res) {
   };
 
   const reqPaystack = https
-    .request(options, (respaystack) => {
+    .request(options, async (respaystack) => { // Mark the callback function as async
       let data = "";
 
       respaystack.on("data", (chunk) => {
         data += chunk;
       });
 
-      respaystack.on("end", () => {
+      respaystack.on("end", async () => { // Mark the callback function as async
         const responseData = JSON.parse(data);
-        console.log(responseData); // Log the response for debugging purposes
+        // console.log(responseData); // Log the response for debugging purposes
 
         // Check if payment was successful
         if (
@@ -77,20 +78,55 @@ router.get("/verify", function (req, res) {
           responseData.data.status === "success"
         ) {
           // Payment was successful, extract relevant information
-          const { amount, email, transactionId, name, referenceId, status, currency } = responseData.data;
+          const { customer, id, reference, status, currency, metadata } = responseData.data;
+
           const paymentData = {
-            referenceId,
-            email,
-            amount,
+            referenceId: reference,
+            email: customer.email,
             status,
             currency,
-            name,
-            transactionId
-          }
+            name: metadata.customerName,
+            transactionId: id,
+            phone: metadata.phone,
+            address: metadata.deliveryAddress,
+            totalPrice: metadata.totalPrice,
+            cart: metadata.cart,
+            userId: metadata.customerId
+          };
+
           console.log(paymentData);
+
+          // Correct the property name from "refrenceId" to "referenceId" in the Order instantiation
+          const order = new Order({
+            referenceId: reference, // Corrected property name
+            email: paymentData.email,
+            name: paymentData.name,
+            userId: paymentData.userId,
+            currency,
+            phone: paymentData.phone,
+            address: paymentData.address,
+            totalPrice: paymentData.totalPrice,
+            cart: paymentData.cart,
+            transactionId: paymentData.transactionId, // Corrected property name
+            status
+          });
+
+          await order.save();
+
+          const shipping = new Shipping({
+            orderId: order._id,
+            name: paymentData.name,
+            email: paymentData.email,
+            address: paymentData.address,
+            phone: paymentData.phone
+          });
+
+          await shipping.save();
+
+          res.send(data);
         }
-        res.send(data);
-        console.log(JSON.parse(data));
+
+        // console.log(JSON.parse(data));
       });
     })
     .on("error", (error) => {
@@ -98,5 +134,6 @@ router.get("/verify", function (req, res) {
     });
   reqPaystack.end();
 });
+
 
 export default router;

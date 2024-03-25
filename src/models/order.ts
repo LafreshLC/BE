@@ -3,11 +3,15 @@ import { Model, model, ObjectId, Schema } from "mongoose";
 export interface OrderDocument{
     _id: ObjectId;
     userId: ObjectId;
-    products: [{productId: ObjectId, quantity: number}];
+    name: string;
+    refrenceId: string;
+    email: string;
+    transactionId: string;
+    currency: string;
+    cart:[{id: ObjectId, name: string, price: number, category: string, image: string, quantity: number, total: number}];
     address: String;
-    totalPrice: number;
     mobile: string;
-    status: "pending" | "processing" | "confirmed"
+    orderStatus: "pending" | "processing" | "confirmed"
 }
 
 const orderSchema = new Schema<OrderDocument>({
@@ -15,28 +19,63 @@ const orderSchema = new Schema<OrderDocument>({
         type: Schema.Types.ObjectId,
         ref: "User",
     },
-    products:[{
-        productId:{
-            type: Schema.Types.ObjectId,
-            ref: "Product",
-        },
-        quantity:{
-            type: Number
-        }
-    }],
     address:{
         type: String,
         required: true, 
     },
-    totalPrice: {
-        type: Number,
+    email:{
+        type: String,
         required: true
     },
+    refrenceId:{
+        type: String,
+        required: true
+    },
+    name:{
+        type: String,
+        required: true,
+    },
+    transactionId:{
+        type: String,
+        required: true
+    },
+    cart:[{
+        id:{
+            type: Schema.Types.ObjectId,
+            ref:"Product",
+            required: true
+        },
+        name:{
+            type: String,
+            required: true
+        },
+        price:{
+            type: Number,
+            required: true
+        },
+        category:{
+            type: String,
+            required: true
+        },
+        image: {
+            type: String,
+            required: true
+        },
+        quantity:{
+            type: Number,
+            required: true
+        },
+        total:{
+            type: Number,
+            required: true
+        }
+    }],
+    
     mobile:{
         type: String,
         required: true 
     },
-    status:{
+    orderStatus:{
         type: String,
         default: "pending"
     }
