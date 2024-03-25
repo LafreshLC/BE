@@ -4,7 +4,7 @@ export interface OrderDocument{
     _id: ObjectId;
     userId: ObjectId;
     name: string;
-    refrenceId: string;
+    referenceId: string;
     email: string;
     transactionId: string;
     currency: string;
@@ -27,7 +27,7 @@ const orderSchema = new Schema<OrderDocument>({
         type: String,
         required: true
     },
-    refrenceId:{
+    referenceId:{
         type: String,
         required: true
     },
