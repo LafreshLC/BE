@@ -70,7 +70,7 @@ router.get("/verify", async function (req, res) { // Corrected function async sy
       });
 
       respaystack.on("end", async () => { // Mark the callback function as async
-        const responseData = JSON.parse(data);
+        // const responseData = JSON.parse(data);
         // console.log(responseData); // Log the response for debugging purposes
 
         // Check if payment was successful
@@ -99,17 +99,17 @@ router.get("/verify", async function (req, res) { // Corrected function async sy
 
           // Correct the property name from "refrenceId" to "referenceId" in the Order instantiation
           const order = new Order({
-            referenceId: reference, // Corrected property name
+            referenceId: paymentData.referenceId, // Corrected property name
             email: paymentData.email,
             name: paymentData.name,
             userId: paymentData.userId,
             currency,
-            phone: paymentData.phone,
+            mobile: paymentData.phone,
             address: paymentData.address,
-            totalPrice: paymentData.totalPrice,
+            total: paymentData.totalPrice,
             cart: paymentData.cart,
             transactionId: paymentData.transactionId, // Corrected property name
-            status
+            status,
           });
 
           await order.save();
