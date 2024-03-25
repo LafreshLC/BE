@@ -8,7 +8,8 @@ export interface OrderDocument{
     email: string;
     transactionId: string;
     currency: string;
-    cart:[{id: ObjectId, name: string, price: number, category: string, image: string, quantity: number, total: number}];
+    cart:[{id: ObjectId, name: string, price: number, category: string, image: string, quantity: number,}];
+    total: number
     address: String;
     mobile: string;
     orderStatus: "pending" | "processing" | "confirmed"
@@ -65,11 +66,13 @@ const orderSchema = new Schema<OrderDocument>({
             type: Number,
             required: true
         },
-        total:{
-            type: Number,
-            required: true
-        }
+       
     }],
+
+    total:{
+        type: Number,
+        required: true
+    },
     
     mobile:{
         type: String,
