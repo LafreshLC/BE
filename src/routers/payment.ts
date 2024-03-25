@@ -5,12 +5,16 @@ const router = Router();
 const https = require("https");
 
 router.post("/payment", function (req, res) {
-  const { email, amount } = req.body;
+  const { amount, email, id, phone, first_name, metadata } = req.body;
 
   const params = JSON.stringify({
     email,
     amount,
+    id,
+    phone,
+    first_name,
     callback_url: "https://lafreshfe.vercel.app/",
+    metadata,
   });
 
   const options = {
