@@ -10,8 +10,7 @@ router.post("/payment", function (req, res) {
   const params = JSON.stringify({
     email,
     amount,
-    callback_url: "https://lafreshfe.vercel.app/verify",
-    // callback_url: "http://localhost:5173/verify",
+    callback_url: "https://lafreshfe.vercel.app/",
   });
 
   const options = {
