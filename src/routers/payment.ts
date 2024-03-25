@@ -5,14 +5,11 @@ const router = Router();
 const https = require("https");
 
 router.post("/payment", function (req, res) {
-  const { amount, email, id, phone, first_name, metadata } = req.body;
+  const { amount, email, metadata } = req.body;
 
   const params = JSON.stringify({
     email,
     amount,
-    id,
-    phone,
-    first_name,
     callback_url: "https://lafreshfe.vercel.app/",
     metadata,
   });
@@ -51,7 +48,7 @@ router.post("/payment", function (req, res) {
 
 router.get("/verify", function (req, res) {
   const reference = req.query.reference;
-  console.log(reference);
+  // console.log(reference);
   const options = {
     hostname: "api.paystack.co",
     port: 443,
