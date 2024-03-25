@@ -6,13 +6,14 @@ import Router, { response } from "express";
 const router = Router();
 const https = require("https");
 
-router.post("/payment", function async(req, res) {
-  const { email, amount } = req.body;
+router.post("/payment", function (req, res) {
+  const { amount, email, metadata } = req.body;
 
   const params = JSON.stringify({
     email,
     amount,
     callback_url: "https://lafreshfe.vercel.app/",
+    metadata,
   });
 
   const options = {
@@ -49,7 +50,7 @@ router.post("/payment", function async(req, res) {
 
 router.get("/verify", async function (req, res) { // Corrected function async syntax
   const reference = req.query.reference;
-  console.log(reference);
+  // console.log(reference);
   const options = {
     hostname: "api.paystack.co",
     port: 443,
