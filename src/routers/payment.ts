@@ -88,9 +88,9 @@ router.get("/verify", async function (req, res) { // Corrected function async sy
             currency,
             name: metadata.customerName,
             transactionId: id,
-            phone: metadata.phone,
+            mobile: metadata.phone,
             address: metadata.deliveryAddress,
-            totalPrice: metadata.totalPrice,
+            total: metadata.totalPrice,
             cart: metadata.cart,
             userId: metadata.customerId
           };
