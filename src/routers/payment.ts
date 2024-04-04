@@ -104,7 +104,7 @@ router.get("/verify", async function (req, res) { // Corrected function async sy
             name: paymentData.name,
             userId: paymentData.userId,
             currency,
-            phone: paymentData.phone,
+            mobile: paymentData.phone,
             address: paymentData.address,
             totalPrice: paymentData.totalPrice,
             cart: paymentData.cart,

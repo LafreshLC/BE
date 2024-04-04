@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { create, generateForgetPasswordLink, grantValid, logout, sendProfile, signIn, updatePassword, updateProfile } from "#/controller/auth";
+import { create, generateForgetPasswordLink, getTotalUsers, grantValid, logout, sendProfile, signIn, updatePassword, updateProfile } from "#/controller/auth";
 import { validate } from '#/middleware/validator';
 import { CreateUserSchema, SignInValidationSchema, TokenAndIDValidation, UpdatePasswordSchema } from "#/utils/validationSchema";
 import { isValidPasswordResetToken, mustAuth } from "#/middleware/auth";
@@ -14,8 +14,7 @@ router.post('/sign-in', validate(SignInValidationSchema), signIn);
 router.get('/:userId', mustAuth, sendProfile)  
 router.post('/log-out', mustAuth, logout)
 router.patch('/:userId', mustAuth, updateProfile); 
+router.get('/total/user', getTotalUsers)
 
-
-
-
+ 
 export default router 

@@ -143,4 +143,16 @@ export const logout: RequestHandler = async (req, res) => {
   res.json({ success: true });
 };
 
+export const getTotalUsers: RequestHandler = async (req, res) => {
+  try {
+    // Count the total number of users excluding those with the role of admin
+    const totalUsers = await User.countDocuments({ role: { $ne: 'admin' } });
+    res.json({ totalUsers });
+  } catch (error) {
+    console.error("Error fetching total users:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
   
