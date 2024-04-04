@@ -4,11 +4,12 @@ export interface OrderDocument{
     _id: ObjectId;
     userId: ObjectId;
     name: string;
-    refrenceId: string;
+    referenceId: string;
     email: string;
     transactionId: string;
     currency: string;
-    cart:[{id: ObjectId, name: string, price: number, category: string, image: string, quantity: number, total: number}];
+    cart:[{id: ObjectId, name: string, price: number, category: string, image: string, quantity: number,}];
+    total: number
     address: String;
     mobile: string;
     orderStatus: "pending" | "processing" | "confirmed"
@@ -27,7 +28,7 @@ const orderSchema = new Schema<OrderDocument>({
         type: String,
         required: true
     },
-    refrenceId:{
+    referenceId:{
         type: String,
         required: true
     },
@@ -65,11 +66,13 @@ const orderSchema = new Schema<OrderDocument>({
             type: Number,
             required: true
         },
-        total:{
-            type: Number,
-            required: true
-        }
+       
     }],
+
+    total:{
+        type: Number,
+        required: true
+    },
     
     mobile:{
         type: String,

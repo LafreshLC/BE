@@ -99,17 +99,17 @@ router.get("/verify", async function (req, res) { // Corrected function async sy
 
           // Correct the property name from "refrenceId" to "referenceId" in the Order instantiation
           const order = new Order({
-            referenceId: reference, // Corrected property name
+            referenceId: paymentData.referenceId, // Corrected property name
             email: paymentData.email,
             name: paymentData.name,
             userId: paymentData.userId,
             currency,
             mobile: paymentData.phone,
             address: paymentData.address,
-            totalPrice: paymentData.totalPrice,
+            total: paymentData.totalPrice,
             cart: paymentData.cart,
             transactionId: paymentData.transactionId, // Corrected property name
-            status
+            status,
           });
 
           await order.save();
