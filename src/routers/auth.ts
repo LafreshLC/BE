@@ -16,5 +16,4 @@ router.post('/log-out', mustAuth, logout)
 router.patch('/:userId', mustAuth, updateProfile); 
 router.get('/total/user', getTotalUsers)
 
- 
 export default router 
