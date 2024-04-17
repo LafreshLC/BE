@@ -29,16 +29,23 @@ const generateMailTransporter = () =>{
     link: string;
 }
 
-// interface MailtrapClientConfig {
-//   endpoint: string;
-//   token: string;
-// }
+interface MailtrapClientConfig {
+  endpoint: string;
+  token: string;
+}
 
 export const sendForgetPasswordLink = async (options: Options) =>{ 
   const { email, link } = options
-    const ENDPOINT = 'your-endpoint'; // Define your endpoint
+  // const ENDPOINT = 'https://send.api.mailtrap.io/'; // Define your endpoint
+  // const MAILTRAP_TOKEN = '414257cc5c64dad4b57e67b9e16cabba'; // Define your token
 
-  const client = new MailtrapClient({ endpoint: ENDPOINT, token: MAILTRAP_TOKEN });
+  const clientConfig: MailtrapClientConfig = {
+        endpoint: ENDPOINT,
+        token: MAILTRAP_TOKEN
+  }
+  
+
+  const client = new MailtrapClient( clientConfig );
   
   const sender = {
     email: VERIFICATION_EMAIL,
@@ -62,11 +69,53 @@ export const sendForgetPasswordLink = async (options: Options) =>{
     })
   }
 
+
+  
+  // Assuming Options and MailtrapClient are defined elsewhere
+  
+  // export const sendForgetPasswordLink = async (options: Options) => {
+  //   const { email, link } = options;
+  //   const ENDPOINT = 'your-endpoint'; // Define your endpoint
+  //   const MAILTRAP_TOKEN = 'your-token'; // Define your token
+  //   const VERIFICATION_EMAIL = 'your-verification-email'; // Define your verification email
+  
+  //   // Create the MailtrapClient instance with the configuration
+  //   const clientConfig: MailtrapClientConfig = {
+  //     endpoint: ENDPOINT,
+  //     token: MAILTRAP_TOKEN
+  //   };
+  //   const client = new MailtrapClient(clientConfig);
+  
+  //   const sender = {
+  //     email: VERIFICATION_EMAIL,
+  //     name: "Password Reset", 
+  //   }; 
+  //   const recipients = [
+  //     {
+  //       email
+  //     }
+  //   ];
+  
+  //   // Assuming your client has a send method
+  //   await client.send({
+  //     from: sender,
+  //     to: recipients,
+  //     template_uuid: "f442222c-5b7f-4c31-93c6-d8d9e6bd86a4",
+  //     template_variables: {
+  //       "user_email": email,
+  //       "pass_reset_link": link
+  //     }
+  //   });
+  // };
   
 export const sendPasswordResetMail = async (name: string, email: string) =>{ 
 
-  const client = new MailtrapClient({ endpoint: ENDPOINT, token: MAILTRAP_TOKEN });
-  
+const clientConfig: MailtrapClientConfig = {
+    endpoint: ENDPOINT,
+    token: MAILTRAP_TOKEN
+}
+
+const client = new MailtrapClient( clientConfig );  
   const sender = {
     email: VERIFICATION_EMAIL,
     name: "Password Reset", 
@@ -92,8 +141,13 @@ export const sendPasswordResetMail = async (name: string, email: string) =>{
 }
 
   export const productOrderMail = async (name:string, email:string, product: string, quantity: number, price: number, address: string, transactionId: string) =>{ 
-    const client = new MailtrapClient({ endpoint: ENDPOINT, token: MAILTRAP_TOKEN });
-  
+
+const clientConfig: MailtrapClientConfig = {
+      endpoint: ENDPOINT,
+      token: MAILTRAP_TOKEN
+}
+
+  const client = new MailtrapClient( clientConfig );  
     const sender = {
       email: ORDER_EMAIL,
       name: "Lafresh Order", 
