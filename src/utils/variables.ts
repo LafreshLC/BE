@@ -10,4 +10,6 @@ export const {MONGO_URI,
     CLOUD_NAME,
     CLOUD_KEY,
     CLOUD_SECRET,
-    } = env;
+    MAILTRAP_TOKEN,
+    ORDER_EMAIL
+    } = env; 

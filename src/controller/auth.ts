@@ -6,7 +6,7 @@ import User, { UserDocument } from '#/models/user';
 import passwordResetToken from "#/models/passwordResetToken";
 import crypto from "crypto";
 import { PASSWORD_RESET_LINK } from "#/utils/variables";
-import { sendForgetPasswordLink } from "#/utils/mail";
+import { sendForgetPasswordLink, sendPasswordResetMail } from "#/utils/mail";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "#/utils/variables";
 
@@ -79,6 +79,7 @@ const token = crypto.randomBytes(36).toString('hex')
   
     await passwordResetToken.findOneAndDelete({owner: user._id});
     // send success mail
+    sendPasswordResetMail(user.name, user.email)
     res.json({message: "Password Reset successfully."})
   };
 

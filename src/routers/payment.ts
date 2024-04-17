@@ -115,8 +115,8 @@ router.get("/verify", async function (req, res) { // Corrected function async sy
 
           await order.save();
 
-          productOrderMail({name: paymentData.name, email: paymentData.email, product: metadata.cart.name, quantity: metadata.cart.quantity,
-            image:metadata.cart.image, price: paymentData.totalPrice, address: paymentData.address, transactionId: paymentData.transactionId })
+          productOrderMail( paymentData.name, paymentData.email, metadata.cart.name, metadata.cart.quantity,
+            paymentData.totalPrice, paymentData.address, paymentData.transactionId )
                 
           const shipping = new Shipping({
             orderId: order._id,
