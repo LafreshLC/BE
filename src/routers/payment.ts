@@ -13,7 +13,7 @@ router.post("/payment", function (req, res) {
   const params = JSON.stringify({
     email,
     amount,
-    callback_url: "https://lafreshfe.vercel.app/",
+    callback_url: "https://lafresh.com.ng/",
     metadata,
   });
 

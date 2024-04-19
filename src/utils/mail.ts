@@ -170,7 +170,7 @@ const clientConfig: MailtrapClientConfig = {
       "price": price,
       "email": email,
       "quantity": quantity,
-      "addess": address,
+      "address": address,
       "transactionId": transactionId,
     }
   })
