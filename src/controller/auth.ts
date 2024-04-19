@@ -155,5 +155,7 @@ export const getTotalUsers: RequestHandler = async (req, res) => {
   }
 };
 
-
-  
+// export const totalNumberOfUsers: RequestHandler = async(req, res) =>{
+//   const totalUsers = await User.countDocuments();
+//   res.json({totalUsers})
+// }

@@ -13,7 +13,11 @@ router.post("/payment", function (req, res) {
   const params = JSON.stringify({
     email,
     amount,
+<<<<<<< HEAD
     callback_url: "http://lafresh.com.ng/",
+=======
+    callback_url: "https://lafresh.com.ng/",
+>>>>>>> a164a0ecb7891f3056302d10ee533499bd56d4d7
     metadata,
   });
 
