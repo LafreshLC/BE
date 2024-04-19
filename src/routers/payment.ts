@@ -13,7 +13,7 @@ router.post("/payment", function (req, res) {
   const params = JSON.stringify({
     email,
     amount,
-    callback_url: "https://lafreshfe.vercel.app/",
+    callback_url: "http://lafresh.com.ng/",
     metadata,
   });
 
@@ -80,44 +80,119 @@ router.get("/verify", async function (req, res) { // Corrected function async sy
           responseData.data.status === "success"
         ) {
           // Payment was successful, extract relevant information
+          // const { customer, id, reference, status, currency, metadata } = responseData.data;
+
+          // const paymentData = {
+          //   referenceId: reference,
+          //   email: customer.email,
+          //   status,
+          //   currency,
+          //   name: metadata.customerName,
+          //   transactionId: id,
+          //   phone: metadata.phone,
+          //   address: metadata.deliveryAddress,
+          //   totalPrice: metadata.totalPrice,
+          //   cart: metadata.cart,
+          //   userId: metadata.customerId
+          // };
+
+          // console.log(paymentData);
+
+          // // Correct the property name from "refrenceId" to "referenceId" in the Order instantiation
+          // const order = new Order({
+          //   referenceId: paymentData.referenceId, // Corrected property name
+          //   email: paymentData.email,
+          //   name: paymentData.name,
+          //   userId: paymentData.userId,
+          //   currency,
+          //   mobile: paymentData.phone,
+          //   address: paymentData.address,
+          //   total: paymentData.totalPrice,
+          //   cart: paymentData.cart,
+          //   transactionId: paymentData.transactionId, // Corrected property name
+          //   status,
+          // });
+
+          // await order.save();
+
+          // productOrderMail( paymentData.name, paymentData.email, paymentData.cart, metadata.cart.quantity,
+          //   paymentData.totalPrice, paymentData.address, paymentData.transactionId )
+
           const { customer, id, reference, status, currency, metadata } = responseData.data;
 
-          const paymentData = {
-            referenceId: reference,
-            email: customer.email,
-            status,
-            currency,
-            name: metadata.customerName,
-            transactionId: id,
-            phone: metadata.phone,
-            address: metadata.deliveryAddress,
-            totalPrice: metadata.totalPrice,
-            cart: metadata.cart,
-            userId: metadata.customerId
-          };
+const paymentData = {
+    referenceId: reference,
+    email: customer.email,
+    status,
+    currency,
+    name: metadata.customerName,
+    transactionId: id,
+    phone: metadata.phone,
+    address: metadata.deliveryAddress,
+    totalPrice: metadata.totalPrice,
+    cart: metadata.cart,
+    userId: metadata.customerId
+};
 
-          console.log(paymentData);
+console.log(paymentData);
 
-          // Correct the property name from "refrenceId" to "referenceId" in the Order instantiation
-          const order = new Order({
-            referenceId: paymentData.referenceId, // Corrected property name
-            email: paymentData.email,
-            name: paymentData.name,
-            userId: paymentData.userId,
-            currency,
-            mobile: paymentData.phone,
-            address: paymentData.address,
-            total: paymentData.totalPrice,
-            cart: paymentData.cart,
-            transactionId: paymentData.transactionId, // Corrected property name
-            status,
-          });
+// Correct the property name from "refrenceId" to "referenceId" in the Order instantiation
+const order = new Order({
+    referenceId: paymentData.referenceId, // Corrected property name
+    email: paymentData.email,
+    name: paymentData.name,
+    userId: paymentData.userId,
+    currency,
+    mobile: paymentData.phone,
+    address: paymentData.address,
+    total: paymentData.totalPrice,
+    cart: paymentData.cart,
+    transactionId: paymentData.transactionId, // Corrected property name
+    status,
+});
 
-          await order.save();
+await order.save();
 
-          productOrderMail( paymentData.name, paymentData.email, metadata.cart.name, metadata.cart.quantity,
-            paymentData.totalPrice, paymentData.address, paymentData.transactionId )
-                
+// Loop through the products in the cart and send mail for each product
+// paymentData.cart.forEach(product => {
+//     productOrderMail(
+//         paymentData.name,
+//         paymentData.email,
+//         product.name, // Assuming product has a 'name' property
+//         product.quantity, // Assuming product has a 'quantity' property
+//         product.totalPrice, // Assuming product has a 'totalPrice' property
+//         paymentData.address,
+//         paymentData.transactionId
+//     );
+// });   
+
+const aggregatedProducts = {};
+paymentData.cart.forEach(product => {
+    const productName = product.name;
+    if (aggregatedProducts[productName]) {
+        aggregatedProducts[productName].quantity += product.quantity;
+        aggregatedProducts[productName].totalPrice += product.totalPrice;
+    } else {
+        aggregatedProducts[productName] = {
+            quantity: product.quantity,
+            totalPrice: product.totalPrice
+        };
+    }
+});
+
+// Send email for each product with aggregated data
+Object.keys(aggregatedProducts).forEach(productName => {
+    const product = aggregatedProducts[productName];
+    productOrderMail(
+        paymentData.name,
+        paymentData.email,
+        productName,
+        product.quantity,
+        product.totalPrice,
+        paymentData.address,
+        paymentData.transactionId
+    );
+});
           const shipping = new Shipping({
             orderId: order._id,
             name: paymentData.name,

@@ -6,7 +6,7 @@ export interface OrderDocument{
     name: string;
     referenceId: string;
     email: string;
-    transactionId: string;
+    transactionId: string; 
     currency: string;
     cart:[{id: ObjectId, name: string, price: number, category: string, image: string, quantity: number,}];
     total: number
@@ -16,7 +16,7 @@ export interface OrderDocument{
 }
 
 const orderSchema = new Schema<OrderDocument>({
-    userId:{
+    userId:{ 
         type: Schema.Types.ObjectId,
         ref: "User",
     },
