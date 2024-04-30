@@ -16,6 +16,7 @@ router.post("/payment", function (req, res) {
 
     callback_url: "https://lafresh.com.ng/",
   a164a0ecb7891f3056302d10ee533499bd56d4d7,
+    callback_url: "https://lafresh.com.ng/",
     metadata,
   });
 
