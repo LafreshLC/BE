@@ -13,11 +13,9 @@ router.post("/payment", function (req, res) {
   const params = JSON.stringify({
     email,
     amount,
-<<<<<<< HEAD
-    callback_url: "http://lafresh.com.ng/",
-=======
+
     callback_url: "https://lafresh.com.ng/",
->>>>>>> a164a0ecb7891f3056302d10ee533499bd56d4d7
+  a164a0ecb7891f3056302d10ee533499bd56d4d7,
     metadata,
   });
 
@@ -124,7 +122,7 @@ router.get("/verify", async function (req, res) { // Corrected function async sy
 
           const { customer, id, reference, status, currency, metadata } = responseData.data;
 
-const paymentData = {
+  const paymentData = {
     referenceId: reference,
     email: customer.email,
     status,
@@ -192,7 +190,7 @@ Object.keys(aggregatedProducts).forEach(productName => {
         paymentData.email,
         productName,
         product.quantity,
-        product.totalPrice,
+        product.price,
         paymentData.address,
         paymentData.transactionId
     );
